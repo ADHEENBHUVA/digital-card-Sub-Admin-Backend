@@ -1,0 +1,45 @@
+{
+    "company": {
+        "name": "Appifly Infotech",
+        "tagline": "Complete IT Solutions",
+        "description": "Appifly Infotech is a leading provider of innovative IT solutions, offering top-tier software development, digital marketing, and business strategy services.",
+        "logoUrl": "http://localhost:5000/uploads/logo.jpg",
+        "coverUrl": "https://via.placeholder.com/800x300"
+    },
+    "contact": {
+        "phone": "+91 9876543210",
+        "whatsapp": "919876543210",
+        "email": "info@appifly.com",
+        "website": "https://appifly.com",
+        "address": "123 Tech Park, Innovation Hub, Cyber City",
+        "mapUrl": "https://maps.google.com"
+    },
+    "social": {
+        "facebook": "https://facebook.com/appifly",
+        "instagram": "https://instagram.com/appifly",
+        "linkedin": "https://linkedin.com/company/appifly",
+        "youtube": "https://youtube.com/appifly",
+        "twitter": "https://twitter.com/appifly"
+    },
+    "services": [
+        {
+            "title": "Software Development",
+            "description": "Custom software solutions tailored to your business needs."
+        },
+        {
+            "title": "Web Development",
+            "description": "Modern, responsive, and high-performance websites."
+        },
+        {
+            "title": "Digital Marketing",
+            "description": "Result-driven SEO and marketing campaigns."
+        }
+    ],
+    "products": [
+        {
+            "name": "Appifly ERP",
+            "description": "Comprehensive enterprise resource planning system.",
+            "price": "$499/mo"
+        }
+    ]
+}
