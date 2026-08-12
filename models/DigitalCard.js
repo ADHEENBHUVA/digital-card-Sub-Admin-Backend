@@ -47,7 +47,8 @@ const DigitalCardSchema = new mongoose.Schema({
         logo: { type: String, default: '' },
         businessName: { type: String, default: '' },
         tagline: { type: String, default: '' },
-        copyright: { type: String, default: '' }
+        copyright: { type: String, default: '' },
+        backgroundColor: { type: String, default: '' }
     },
 
     design: {
