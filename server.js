@@ -112,6 +112,21 @@ const getFallbackProfile = () => {
     return data;
 };
 
+// Health check endpoints for Vercel/Monitoring
+app.get("/", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Backend API is running"
+    });
+});
+
+app.get("/api/health", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "API is healthy"
+    });
+});
+
 // API Routes
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
