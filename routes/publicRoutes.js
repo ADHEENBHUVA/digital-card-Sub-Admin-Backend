@@ -40,12 +40,29 @@ router.get('/profile/:slug', async (req, res) => {
             await card.save();
         }
 
-        // Increment Views
-        profile.views.landingPage = (profile.views.landingPage || 0) + 1;
-        if (req.query.source === 'card') {
-            profile.views.digitalCard = (profile.views.digitalCard || 0) + 1;
+        // --- ONLY TRACK IF NOT IN PREVIEW MODE ---
+        if (req.query.preview !== 'true') {
+            // Increment Views
+            profile.views.landingPage = (profile.views.landingPage || 0) + 1;
+            if (req.query.source === 'card') {
+                profile.views.digitalCard = (profile.views.digitalCard || 0) + 1;
+            }
+
+            // Record Daily Hit
+            const todayDate = new Date().toISOString().split('T')[0];
+            let todayStat = profile.dailyViews.find(d => d.date === todayDate);
+            if (!todayStat) {
+                todayStat = { date: todayDate, digitalCard: 0, landingPage: 0 };
+                profile.dailyViews.push(todayStat);
+                todayStat = profile.dailyViews[profile.dailyViews.length - 1];
+            }
+            todayStat.landingPage += 1;
+            if (req.query.source === 'card') {
+                todayStat.digitalCard += 1;
+            }
+
+            await profile.save();
         }
-        await profile.save();
 
         const responseData = card.toObject();
 

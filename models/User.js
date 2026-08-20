@@ -68,7 +68,15 @@ const UserSchema = new mongoose.Schema({
     views: {
         digitalCard: { type: Number, default: 0 },
         landingPage: { type: Number, default: 0 }
-    }
+    },
+
+    dailyViews: [
+        {
+            date: String,
+            digitalCard: { type: Number, default: 0 },
+            landingPage: { type: Number, default: 0 }
+        }
+    ]
 
 }, { timestamps: true });
 
