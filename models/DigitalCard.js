@@ -4,6 +4,15 @@ const DigitalCardSchema = new mongoose.Schema({
     ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
     slug: { type: String, required: true, unique: true },
 
+    // NFC Fields
+    cardNumber: { type: String, unique: true, sparse: true },
+    uniqueToken: { type: String, unique: true, sparse: true },
+    nfcEnabled: { type: Boolean, default: false },
+    nfcStatus: { type: String, enum: ['active', 'inactive', 'unassigned'], default: 'unassigned' },
+    assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    assignedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    isActive: { type: Boolean, default: true },
+
     hero: {
         image: { type: String, default: '' },
         logo: { type: String, default: '' },

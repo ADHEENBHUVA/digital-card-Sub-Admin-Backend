@@ -113,7 +113,20 @@ router.get('/qr', protect, subAdminOnly, async (req, res) => {
 // GET /api/sub-admin/nfc
 router.get('/nfc', protect, subAdminOnly, async (req, res) => {
     const user = await User.findById(req.user._id);
-    res.json({ nfcUrl: user.nfcUrl, nfcStatus: 'Active' });
+    const DigitalCard = require('../models/DigitalCard');
+    const card = await DigitalCard.findOne({ ownerId: user._id });
+
+    if (card) {
+        res.json({
+            nfcUrl: user.nfcUrl,
+            nfcStatus: card.nfcStatus || 'unassigned',
+            nfcEnabled: card.nfcEnabled || false,
+            uniqueToken: card.uniqueToken || null,
+            isActive: card.isActive
+        });
+    } else {
+        res.json({ nfcUrl: user.nfcUrl, nfcStatus: 'Active' });
+    }
 });
 
 module.exports = router;
