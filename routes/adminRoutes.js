@@ -9,8 +9,12 @@ const fs = require('fs');
 
 // Ensure QR directory exists
 const QR_DIR = path.join(__dirname, '..', 'uploads', 'qr');
-if (!fs.existsSync(QR_DIR)) {
-    fs.mkdirSync(QR_DIR, { recursive: true });
+try {
+    if (!fs.existsSync(QR_DIR)) {
+        fs.mkdirSync(QR_DIR, { recursive: true });
+    }
+} catch (error) {
+    console.warn('Skipping QR dir creation on read-only environments:', error.message);
 }
 
 // GET /api/admin/sub-admins

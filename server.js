@@ -25,26 +25,30 @@ const QR_DIR = path.join(__dirname, '../uploads', 'qr');
 const QR_FILE = path.join(QR_DIR, 'appifly.png');
 const PERMANENT_URL = 'https://yourdomain.com/appifly';
 
-// Ensure directories exist
-if (!fs.existsSync(QR_DIR)) {
-    fs.mkdirSync(QR_DIR, { recursive: true });
-}
+try {
+    // Ensure directories exist
+    if (!fs.existsSync(QR_DIR)) {
+        fs.mkdirSync(QR_DIR, { recursive: true });
+    }
 
-// Generate single permanent QR Code if it doesn't already exist
-if (!fs.existsSync(QR_FILE)) {
-    QRCode.toFile(QR_FILE, PERMANENT_URL, {
-        width: 1024, // High Resolution
-        margin: 2,
-        color: {
-            dark: '#000000',
-            light: '#ffffff'
-        }
-    }, function (err) {
-        if (err) console.error('Error generating QR Code:', err);
-        else console.log('Permanent QR Code successfully generated at', QR_FILE);
-    });
-} else {
-    console.log('Permanent QR Code already exists at', QR_FILE);
+    // Generate single permanent QR Code if it doesn't already exist
+    if (!fs.existsSync(QR_FILE)) {
+        QRCode.toFile(QR_FILE, PERMANENT_URL, {
+            width: 1024, // High Resolution
+            margin: 2,
+            color: {
+                dark: '#000000',
+                light: '#ffffff'
+            }
+        }, function (err) {
+            if (err) console.error('Error generating QR Code:', err);
+            else console.log('Permanent QR Code successfully generated at', QR_FILE);
+        });
+    } else {
+        console.log('Permanent QR Code already exists at', QR_FILE);
+    }
+} catch (error) {
+    console.warn('Skipping QR generation on read-only environments (like Vercel):', error.message);
 }
 
 const mongoose = require('mongoose');
@@ -101,7 +105,9 @@ const seedDatabase = async () => {
         console.error("Error seeding database:", err);
     }
 };
-seedDatabase();
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+    seedDatabase();
+}
 
 // Helper for fallback
 const getFallbackProfile = () => {
