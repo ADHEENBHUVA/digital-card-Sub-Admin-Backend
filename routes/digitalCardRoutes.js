@@ -83,13 +83,6 @@ router.put('/my-card', protect, async (req, res) => {
             }
         };
 
-            if (base64String.startsWith('data:')) {
-                throw new Error('Unable to process this media file. Please try another image or video.');
-            }
-
-            return base64String;
-        };
-
         if (hero) {
             if (hero.coverVideo) hero.coverVideo = await processBase64Media(hero.coverVideo, 'cover_video');
             if (hero.coverImage) hero.coverImage = await processBase64Media(hero.coverImage, 'cover_image');
