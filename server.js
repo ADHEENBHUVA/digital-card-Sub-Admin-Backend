@@ -139,6 +139,7 @@ app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/sub-admin', require('./routes/subAdminRoutes'));
 app.use('/api/public', require('./routes/publicRoutes'));
 app.use('/api/digital-card', require('./routes/digitalCardRoutes'));
+app.use('/api/nfc-cards', require('./routes/nfcCardRoutes'));
 
 // Error handling middleware can go here
 

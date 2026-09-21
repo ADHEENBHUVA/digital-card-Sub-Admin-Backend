@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
-
 const DigitalCard = require('../models/DigitalCard');
+const NfcCard = require('../models/NfcCard');
 
 // GET /api/public/profile/:slug
 router.get('/profile/:slug', async (req, res) => {
@@ -42,9 +42,22 @@ router.get('/profile/:slug', async (req, res) => {
 
         // --- ONLY TRACK IF NOT IN PREVIEW MODE ---
         if (req.query.preview !== 'true') {
+            // Check NFC Card if cardId is provided
+            if (req.query.cardId) {
+                const nfcCard = await NfcCard.findOne({ cardId: req.query.cardId, subAdminId: profile._id });
+                if (nfcCard) {
+                    if (nfcCard.status === 'Disabled') {
+                        return res.status(403).json({ message: 'This Digital Card has been deactivated.' });
+                    }
+                    // Increment Tap Count
+                    nfcCard.tapCount += 1;
+                    await nfcCard.save();
+                }
+            }
+
             // Increment Views
             profile.views.landingPage = (profile.views.landingPage || 0) + 1;
-            if (req.query.source === 'card') {
+            if (req.query.source === 'card' || req.query.cardId) {
                 profile.views.digitalCard = (profile.views.digitalCard || 0) + 1;
             }
 
@@ -57,7 +70,7 @@ router.get('/profile/:slug', async (req, res) => {
                 todayStat = profile.dailyViews[profile.dailyViews.length - 1];
             }
             todayStat.landingPage += 1;
-            if (req.query.source === 'card') {
+            if (req.query.source === 'card' || req.query.cardId) {
                 todayStat.digitalCard += 1;
             }
 
