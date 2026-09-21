@@ -47,7 +47,7 @@ router.get('/', protect, subAdminOnly, async (req, res) => {
                 _id: `MASTER_${digitalCard._id}`,
                 cardId: digitalCard.cardNumber || 'N/A',
                 cardName: 'Master Admin Card (Default)',
-                tapCount: 'N/A',
+                tapCount: digitalCard.views?.digitalCard || 0,
                 status: digitalCard.isActive ? 'Active' : 'Disabled',
                 writeDate: digitalCard.updatedAt,
                 isMasterCard: true
