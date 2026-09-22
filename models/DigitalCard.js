@@ -12,6 +12,7 @@ const DigitalCardSchema = new mongoose.Schema({
     assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     assignedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     isActive: { type: Boolean, default: true },
+    isLockedByMaster: { type: Boolean, default: false },
 
     hero: {
         image: { type: String, default: '' },

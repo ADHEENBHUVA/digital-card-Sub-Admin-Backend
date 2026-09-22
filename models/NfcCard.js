@@ -8,6 +8,7 @@ const NfcCardSchema = new mongoose.Schema({
     customerEmail: { type: String },
     customerPhone: { type: String },
     status: { type: String, enum: ['Active', 'Disabled'], default: 'Active' },
+    isLockedByMaster: { type: Boolean, default: false },
     writeDate: { type: Date, default: Date.now }
 }, { timestamps: true });
 

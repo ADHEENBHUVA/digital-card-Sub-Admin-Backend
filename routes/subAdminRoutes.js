@@ -14,7 +14,7 @@ const checkPasswordChange = async (req, res, next) => {
 // GET /api/sub-admin/profile
 router.get('/profile', protect, subAdminOnly, async (req, res) => {
     try {
-        const subAdmin = await User.findById(req.user._id).select('-passwordHash');
+        const subAdmin = await User.findById(req.user._id).select('-passwordHash').lean();
         res.json(subAdmin);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching profile' });
@@ -122,7 +122,8 @@ router.get('/nfc', protect, subAdminOnly, async (req, res) => {
             nfcStatus: card.nfcStatus || 'unassigned',
             nfcEnabled: card.nfcEnabled || false,
             uniqueToken: card.uniqueToken || null,
-            isActive: card.isActive
+            isActive: card.isActive,
+            isLockedByMaster: card.isLockedByMaster || false
         });
     } else {
         res.json({ nfcUrl: user.nfcUrl, nfcStatus: 'Active' });
