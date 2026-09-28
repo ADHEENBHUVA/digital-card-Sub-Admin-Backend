@@ -50,12 +50,7 @@ router.post('/sub-admins', protect, adminOnly, async (req, res) => {
         const permanentUrl = `https://yourdomain.com/${slug}`;
         const nfcUrl = permanentUrl;
 
-        // Generate QR code
-        const qrFilename = `${slug}-qr.png`;
-        const qrPath = path.join(QR_DIR, qrFilename);
-        const qrCodeUrl = `/uploads/qr/${qrFilename}`;
-
-        await QRCode.toFile(qrPath, permanentUrl, {
+        const qrCodeUrl = await QRCode.toDataURL(permanentUrl, {
             width: 1024,
             margin: 2
         });
